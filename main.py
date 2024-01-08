@@ -41,7 +41,7 @@ def test_model(
     num_train_examples : int = int(512)
     num_validation_examples : int = int(512)
     
-    dataset_arguments, ifos = return_default_dataset_args(cache_segments)
+    dataset_arguments, _, _, ifos = return_default_dataset_args(cache_segments)
 
     training_config = {
         "num_examples_per_epoc" : num_train_examples,
@@ -61,7 +61,6 @@ def test_model(
             training_config,
             deepcopy(dataset_arguments)
         )
-    quit()
 
     population.train(
         100, 

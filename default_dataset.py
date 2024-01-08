@@ -1,4 +1,5 @@
 from pathlib import Path
+from copy import deepcopy
 import logging
 import os
 
@@ -39,7 +40,18 @@ def return_default_injection_generators():
     )
     wnb_generator.injection_chance = 0.5
 
-    return [phenom_d_generator, wnb_generator]
+    return {
+        "signal" : {
+            "generator" : phenom_d_generator,
+            "excluded" : None,
+            "exclusive" : None
+        },
+        "noise" : {
+            "generator" : wnb_generator,
+            "excluded" : "signal",
+            "exclusive" : None
+        }
+    }
 
 def return_default_dataset_args(
     cache_segments : bool
@@ -79,14 +91,37 @@ def return_default_dataset_args(
         gf.ReturnVariables.INJECTION_MASKS
     ]
 
-    dataset_arguments : Dict = {
+    training_arguments : Dict = {
         # Noise: 
-        "noise_obtainer" : noise_obtainer,
+        "noise_obtainer" : deepcopy(noise_obtainer),
+        "seed" : 100,
         # Injections:
-        "injection_generators" : return_default_injection_generators(), 
+        "injection_generators" : deepcopy(return_default_injection_generators()), 
         # Output configuration:
-        "input_variables" : input_variables,
-        "output_variables": output_variables
+        "input_variables" : deepcopy(input_variables),
+        "output_variables": deepcopy(output_variables)
     } # Define injection directory path:
 
-    return dataset_arguments, ifos
+    validation_arguments : Dict = {
+        # Noise: 
+        "noise_obtainer" : deepcopy(noise_obtainer),
+        "seed" : 101,
+        # Injections:
+        "injection_generators" : deepcopy(return_default_injection_generators()["signal"]["generator"]), 
+        # Output configuration:
+        "input_variables" : deepcopy(input_variables),
+        "output_variables": deepcopy(output_variables)
+    } # Define injection directory path:
+
+    testing_arguments : Dict = {
+        # Noise: 
+        "noise_obtainer" : deepcopy(noise_obtainer),
+        "seed" : 102,
+        # Injections:
+        "injection_generators" : deepcopy(return_default_injection_generators()["signal"]["generator"]), 
+        # Output configuration:
+        "input_variables" : deepcopy(input_variables),
+        "output_variables": deepcopy(output_variables)
+    } # Define injection directory path:
+
+    return training_arguments, validation_arguments, testing_arguments, ifos

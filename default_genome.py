@@ -19,7 +19,7 @@ def return_default_genome():
             gf.Distribution(
                 type_=gf.DistributionType.POW_TWO, 
                 min_=16,
-                max_=128,
+                max_=64,
                 dtype=int
             )
         )
@@ -32,59 +32,63 @@ def return_default_genome():
         )
 
     # Injection genes:
-    injection_generators = [gf.HyperInjectionGenerator(
-        min_ = gf.HyperParameter(
-            gf.Distribution(
-                type_=gf.DistributionType.UNIFORM, 
-                min_=0, 
-                max_=100
-            ) 
-        ),
-        max_ = gf.HyperParameter(
-            gf.Distribution(
+    injection_generators = {name : {
+        "hp" : gf.HyperInjectionGenerator(
+            min_ = gf.HyperParameter(
+                gf.Distribution(
+                    type_=gf.DistributionType.UNIFORM, 
+                    min_=0, 
+                    max_=100
+                ) 
+            ),
+            max_ = gf.HyperParameter(
+                gf.Distribution(
+                        type_=gf.DistributionType.UNIFORM, 
+                        min_=0, 
+                        max_=100
+                    )
+            ),
+            mean = gf.HyperParameter(
+                gf.Distribution(
                     type_=gf.DistributionType.UNIFORM, 
                     min_=0, 
                     max_=100
                 )
-        ),
-        mean = gf.HyperParameter(
-            gf.Distribution(
-                type_=gf.DistributionType.UNIFORM, 
-                min_=0, 
-                max_=100
-            )
-        ),
-        std = gf.HyperParameter(
-            gf.Distribution(
-                type_=gf.DistributionType.UNIFORM, 
-                min_=0, 
-                max_=100
-            )
-        ),
-        distribution = gf.HyperParameter(
-            gf.Distribution(
-                type_=gf.DistributionType.CHOICE, 
-                possible_values=[
-                    gf.DistributionType.UNIFORM,
-                    gf.DistributionType.LOG,
-                    gf.DistributionType.NORMAL
-                ]
-            )
-        ),
-        chance = gf.HyperParameter(
-            gf.Distribution(
-                type_=gf.DistributionType.UNIFORM, 
-                min_=0, 
-                max_=1
-            )
-        ),
-        generator = gf.HyperParameter(
+            ),
+            std = gf.HyperParameter(
                 gf.Distribution(
-                    type_=gf.DistributionType.CONSTANT, 
-                    value = gen
+                    type_=gf.DistributionType.UNIFORM, 
+                    min_=0, 
+                    max_=100
+                )
+            ),
+            distribution = gf.HyperParameter(
+                gf.Distribution(
+                    type_=gf.DistributionType.CHOICE, 
+                    possible_values=[
+                        gf.DistributionType.UNIFORM,
+                        gf.DistributionType.LOG,
+                        gf.DistributionType.NORMAL
+                    ]
+                )
+            ),
+            chance = gf.HyperParameter(
+                gf.Distribution(
+                    type_=gf.DistributionType.UNIFORM, 
+                    min_=0, 
+                    max_=1
+                )
+            ),
+            generator = gf.HyperParameter(
+                    gf.Distribution(
+                        type_=gf.DistributionType.CONSTANT, 
+                        value = gen["generator"]
+                )
             )
-        )
-    ) for gen in return_default_injection_generators() ]
+        ),
+        "excluded" : gen["excluded"],
+        "exclusive" : gen["exclusive"]
+    } for name, gen in return_default_injection_generators().items() }
 
     # Noise genes:
     noise_type = gf.HyperParameter(
@@ -112,7 +116,7 @@ def return_default_genome():
     onsource_duration_seconds = gf.HyperParameter(
         gf.Distribution(
             type_=gf.DistributionType.CHOICE, 
-            possible_values = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
+            possible_values = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
         )
     )
     offsource_duration_seconds = gf.HyperParameter(
@@ -126,8 +130,8 @@ def return_default_genome():
     sample_rate_hertz = gf.HyperParameter(
         gf.Distribution(
             type_=gf.DistributionType.POW_TWO, 
-            min_=512,
-            max_=8196,
+            min_=256,
+            max_=2048,
             dtype=int
         )
     )
@@ -244,7 +248,7 @@ def return_default_genome():
     whiten_layer = gf.HyperParameter(
         gf.Distribution(
             type_=gf.DistributionType.CHOICE,
-            possible_values=[gf.WhitenLayer()], #gf.WhitenPassLayer()]
+            possible_values=[gf.WhitenLayer(), gf.WhitenPassLayer()]
         ),
     )
 

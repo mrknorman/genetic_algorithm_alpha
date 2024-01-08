@@ -38,7 +38,7 @@ def train_genome(
     if gf.is_redirected():
         cache_segments = False
 
-    dataset_arguments, ifos = return_default_dataset_args(cache_segments)
+    training_arguments, validation_arguments, testing_arguments, ifos = return_default_dataset_args(cache_segments)
 
     def adjust_features(features, labels):
         labels['INJECTION_MASKS'] = labels['INJECTION_MASKS'][0]
@@ -89,7 +89,7 @@ def train_genome(
         input_configs=input_configs,
         output_config=output_config,
         force_overwrite=(restart_count==0),
-        dataset_args=deepcopy(dataset_arguments)
+        dataset_args=training_arguments
     )
     
     if (restart_count==0):
@@ -99,7 +99,7 @@ def train_genome(
         model.summary()
 
     model.train(
-        validate_args=deepcopy(dataset_arguments),
+        validate_args=validation_arguments,
         training_config=training_config,
         force_retrain=(restart_count==0), 
         heart=heart
@@ -109,7 +109,7 @@ def train_genome(
     efficiency_config = {
             "max_scaling" : 15.0, 
             "num_scaling_steps" : 31, 
-            "num_examples_per_scaling_step" : 16384 // 2
+            "num_examples_per_scaling_step" : 16384
         }
     far_config = {
             "num_examples" : 1.0E5
@@ -122,7 +122,7 @@ def train_genome(
         } 
     
     model.validate(
-        deepcopy(dataset_arguments),
+        testing_arguments,
         efficiency_config=efficiency_config,
         far_config=far_config,
         roc_config=roc_config,

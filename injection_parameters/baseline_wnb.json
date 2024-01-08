@@ -8,7 +8,7 @@
     },
     "scale_factor" : 1.0,
     "injection_chance": 1.0,
-    "front_padding_duration_seconds": 0.3,
+    "front_padding_duration_seconds": 0.1,
     "back_padding_duration_seconds": 0.0,
     "duration_seconds" : {
         "min_": 0.1,
