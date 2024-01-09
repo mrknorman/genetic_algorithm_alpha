@@ -35,8 +35,8 @@ def train_genome(
     if restart_count < 1:
         restart_count + 1
 
-    if gf.is_redirected():
-        cache_segments = False
+    #if gf.is_redirected():
+        #cache_segments = False
 
     training_arguments, validation_arguments, testing_arguments, ifos = return_default_dataset_args(cache_segments)
 
@@ -109,7 +109,7 @@ def train_genome(
     efficiency_config = {
             "max_scaling" : 15.0, 
             "num_scaling_steps" : 31, 
-            "num_examples_per_scaling_step" : 16384
+            "num_examples_per_scaling_step" : 8192
         }
     far_config = {
             "num_examples" : 1.0E5
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--request_memory",
         type = int, 
-        default = 4000,
+        default = 10000,
         help = (
             "Specify a how much memory to give tf."
         )

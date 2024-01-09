@@ -116,13 +116,13 @@ def return_default_genome():
     onsource_duration_seconds = gf.HyperParameter(
         gf.Distribution(
             type_=gf.DistributionType.CHOICE, 
-            possible_values = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
+            possible_values = [0.25,0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
         )
     )
     offsource_duration_seconds = gf.HyperParameter(
         gf.Distribution(
             type_=gf.DistributionType.UNIFORM, 
-            min_=0, 
+            min_=2, 
             max_=32,
             dtype=int
         )
@@ -131,7 +131,7 @@ def return_default_genome():
         gf.Distribution(
             type_=gf.DistributionType.POW_TWO, 
             min_=256,
-            max_=2048,
+            max_=8192,
             dtype=int
         )
     )
@@ -200,6 +200,12 @@ def return_default_genome():
                 dtype=int
             )
         )
+    pooling_present = gf.HyperParameter(
+            gf.Distribution(
+                type_=gf.DistributionType.CHOICE,
+                possible_values = [True, False]
+            )
+        )
     pool_size = gf.HyperParameter(
             gf.Distribution(
                 type_=gf.DistributionType.UNIFORM, 
@@ -240,8 +246,7 @@ def return_default_genome():
             type_=gf.DistributionType.CHOICE,
             possible_values=[
                 gf.DenseLayer(d_units, dropout_present, dropout_value, batch_normalisation_present, activations),
-                gf.ConvLayer(filters, kernel_size, activations, strides, dilation, dropout_present, dropout_value, batch_normalisation_present),
-                gf.PoolLayer(pool_size, pool_stride),
+                gf.ConvLayer(filters, kernel_size, activations, strides, dilation, dropout_present, dropout_value, batch_normalisation_present, pooling_present, pool_size, pool_stride)
             ]
         ),
     )
