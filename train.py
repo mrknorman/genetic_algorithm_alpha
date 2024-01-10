@@ -112,7 +112,7 @@ def train_genome(
             "num_examples_per_scaling_step" : 8192
         }
     far_config = {
-            "num_examples" : 1.0E5
+            "num_seconds" : 1.0E5
         }
     roc_config : dict = {
             "num_examples" : 1.0E5,

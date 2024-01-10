@@ -70,7 +70,7 @@ def return_default_dataset_args(
         gf.SegmentOrder.RANDOM,
         cache_segments=cache_segments,
         force_acquisition=False,
-        logging_level=logging.ERROR
+        logging_level=logging.INFO
     )
     
     # Initilise noise generator wrapper:

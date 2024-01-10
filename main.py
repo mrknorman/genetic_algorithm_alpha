@@ -54,11 +54,10 @@ if __name__ == "__main__":
     # Set logging level:
     logging.basicConfig(level=logging.INFO)
 
-    memory_to_allocate_tf = 10000    
+    memory_to_allocate_tf = 500    
     # Test Genetic Algorithm Optimiser:
     with gf.env(
             memory_to_allocate_tf=memory_to_allocate_tf,
-            gpus="6"
         ):
 
         test_model()
