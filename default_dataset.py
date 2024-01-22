@@ -6,7 +6,7 @@ import os
 # Local imports:
 import gravyflow as gf
 
-def return_default_injection_generators():
+def return_default_waveform_generators():
     
     minimum_snr : float = 8.0
     maximum_snr : float = 15.0
@@ -54,7 +54,7 @@ def return_default_injection_generators():
     }
 
 def return_default_dataset_args(
-    cache_segments : bool
+        cache_segments : bool
     ):
 
     ifos : List[gf.IFO] = [gf.IFO.L1]
@@ -96,7 +96,7 @@ def return_default_dataset_args(
         "noise_obtainer" : deepcopy(noise_obtainer),
         "seed" : 100,
         # Injections:
-        "injection_generators" : deepcopy(return_default_injection_generators()), 
+        "waveform_generators" : deepcopy(return_default_waveform_generators()), 
         # Output configuration:
         "input_variables" : deepcopy(input_variables),
         "output_variables": deepcopy(output_variables)
@@ -107,7 +107,7 @@ def return_default_dataset_args(
         "noise_obtainer" : deepcopy(noise_obtainer),
         "seed" : 101,
         # Injections:
-        "injection_generators" : deepcopy(return_default_injection_generators()["signal"]["generator"]), 
+        "waveform_generators" : deepcopy(return_default_waveform_generators()["signal"]["generator"]), 
         # Output configuration:
         "input_variables" : deepcopy(input_variables),
         "output_variables": deepcopy(output_variables)
@@ -118,7 +118,7 @@ def return_default_dataset_args(
         "noise_obtainer" : deepcopy(noise_obtainer),
         "seed" : 102,
         # Injections:
-        "injection_generators" : deepcopy(return_default_injection_generators()["signal"]["generator"]), 
+        "waveform_generators" : deepcopy(return_default_waveform_generators()["signal"]["generator"]), 
         # Output configuration:
         "input_variables" : deepcopy(input_variables),
         "output_variables": deepcopy(output_variables)

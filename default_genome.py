@@ -2,7 +2,7 @@ from copy import deepcopy
 
 # Local imports:
 import gravyflow as gf
-from default_dataset import return_default_injection_generators
+from default_dataset import return_default_waveform_generators
 
 def return_default_genome():
 
@@ -88,7 +88,7 @@ def return_default_genome():
         ),
         "excluded" : gen["excluded"],
         "exclusive" : gen["exclusive"]
-    } for name, gen in return_default_injection_generators().items() }
+    } for name, gen in return_default_waveform_generators().items() }
 
     # Noise genes:
     noise_type = gf.HyperParameter(
