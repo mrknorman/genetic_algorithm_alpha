@@ -25,12 +25,12 @@ def test_model(
         num_tests : int = 32
     ):
     
-    max_population : int = 10
-    max_num_generations : int = 10
+    max_population : int = 1000
+    max_num_generations : int = 100
     default_genome = return_default_genome()
 
     if path is not None:
-        population = gf.Population.load(Path(path))
+        population = gf.Population.load(Path(path) / "checkpoint.pkl")
     else:
         population = gf.Population(
             max_population, 
