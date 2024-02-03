@@ -35,8 +35,8 @@ def train_genome(
     if restart_count < 1:
         restart_count + 1
 
-    #if gf.is_redirected():
-        #cache_segments = False
+    if gf.is_redirected():
+        cache_segments = False
 
     training_arguments, validation_arguments, testing_arguments, ifos = return_default_dataset_args(cache_segments)
 
@@ -165,7 +165,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--gpu",
-        type = int, 
+        type = str, 
         default = None,
         help = (
             "Specify a gpu to use."
@@ -194,7 +194,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Set parameters based on command line arguments:
-    gpu = args.gpu
+    gpu = str(args.gpu)
     memory_to_allocate_tf = args.request_memory
     restart_count = args.restart_count
     name = args.name

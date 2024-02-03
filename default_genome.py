@@ -6,7 +6,7 @@ from default_dataset import return_default_waveform_generators
 
 def return_default_genome():
 
-    max_num_inital_layers : int = 10
+    max_num_initial_layers : int = 8
 
     # Training genes:
     optimizer = gf.HyperParameter(
@@ -32,7 +32,7 @@ def return_default_genome():
         )
 
     # Injection genes:
-    injection_generators = {name : {
+    waveform_generators = {name : {
         "hp" : gf.HyperInjectionGenerator(
             min_ = gf.HyperParameter(
                 gf.Distribution(
@@ -116,7 +116,7 @@ def return_default_genome():
     onsource_duration_seconds = gf.HyperParameter(
         gf.Distribution(
             type_=gf.DistributionType.CHOICE, 
-            possible_values = [0.25,0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
+            possible_values = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
         )
     )
     offsource_duration_seconds = gf.HyperParameter(
@@ -141,7 +141,7 @@ def return_default_genome():
             gf.Distribution(
                 type_=gf.DistributionType.UNIFORM, 
                 min_=2, 
-                max_=max_num_inital_layers+1, 
+                max_=max_num_initial_layers+1, 
                 dtype=int
             )
         )
@@ -180,7 +180,7 @@ def return_default_genome():
             gf.Distribution(
                 type_=gf.DistributionType.UNIFORM, 
                 min_=1, 
-                max_=512, 
+                max_=64, 
                 dtype=int
             )
         )
@@ -188,7 +188,7 @@ def return_default_genome():
             gf.Distribution(
                 type_=gf.DistributionType.UNIFORM, 
                 min_=1, 
-                max_=128, 
+                max_=64, 
                 dtype=int
             )
         )
@@ -259,7 +259,7 @@ def return_default_genome():
 
     layers = [whiten_layer]
     layers += [
-        deepcopy(default_layer_type) for i in range(max_num_inital_layers)
+        deepcopy(default_layer_type) for i in range(max_num_initial_layers)
     ]
 
     default_genome = gf.ModelGenome(
@@ -267,7 +267,7 @@ def return_default_genome():
         num_layers=num_layers,
         batch_size=batch_size,
         learning_rate=learning_rate,
-        injection_generators=injection_generators,
+        injection_generators=waveform_generators,
         noise_type=noise_type,
         exclude_glitches=exclude_real_glitches,
         onsource_duration_seconds=onsource_duration_seconds,
