@@ -29,8 +29,16 @@ def test_model(
     max_num_generations : int = 100
     default_genome = return_default_genome()
 
+    population = None
     if path is not None:
         population = gf.Population.load(Path(path) / "checkpoint.pkl")
+
+        if population is None:
+            population = gf.Population(
+                max_population, 
+                default_genome,
+                population_directory_path=Path(path) 
+            )
     else:
         population = gf.Population(
             max_population, 
@@ -56,6 +64,8 @@ if __name__ == "__main__":
             "Name of population model."
         )
     )
+
+    gf.Defaults.seed = 1001
 
     args = parser.parse_args()
     
