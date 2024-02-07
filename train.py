@@ -175,7 +175,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--request_memory",
         type = int, 
-        default = 10000,
+        default = 6000,
         help = (
             "Specify a how much memory to give tf."
         )
